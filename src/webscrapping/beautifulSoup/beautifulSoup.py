@@ -12,10 +12,6 @@ def obtener_urls_productos(busqueda, cantidad=10):
         response = requests.get(url_busqueda, timeout=10)
         response.raise_for_status()
 
-        # Guardamos el contenido HTML para inspección
-        with open("pagina_portatil.html", "w", encoding='utf-8') as file:
-            file.write(response.text)
-
         # Analizamos el contenido HTML de la respuesta
         soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -100,20 +96,4 @@ def obtener_detalles_producto(url_producto):
     except Exception as e:
         print(f"Error al procesar un producto: {e}")
         return {}
-
-# Realizamos la búsqueda y obtenemos los detalles de los productos
-busqueda = 'portatil'
-# Primero, obtenemos las URLs de los primeros 10 productos encontrados
-urls_productos = obtener_urls_productos(busqueda)
-
-# Lista para almacenar los detalles de cada producto
-detalles_productos = []
-
-# Iteramos sobre cada URL y obtenemos los detalles del producto
-for url in urls_productos:
-    detalles_producto = obtener_detalles_producto(url)
-    detalles_productos.append(detalles_producto)
-
-# Finalmente, imprimimos los detalles de todos los productos de manera legible
-pprint.pprint(detalles_productos)
 
