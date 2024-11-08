@@ -2,3 +2,4 @@ bs4
 requests
 pytest
 requests_mock
+flask
