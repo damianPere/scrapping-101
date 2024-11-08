@@ -4,14 +4,13 @@ org: scrapping101
 app: scrapping-101
 service: aws-python-flask-api
 
-
 custom:
   wsgi:
     app: app.app
 
 provider:
   name: aws
-  runtime: python3.12
+  runtime: python3.10
 
 functions:
   api:
