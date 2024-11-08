@@ -58,4 +58,33 @@ jobs:
       - name: Run tests
         run: |
           pytest
-      # TODO: Se debe crear un paso donde haga deploy (solo en master y q se active manualmente) a prod
+
+  # Tercer trabajo: Despliegue con Serverless (solo en ramas que empiezan con scrapping-)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: run_tests # Este trabajo depende de que las pruebas se hayan completado correctamente
+    if: startsWith(github.ref, 'refs/heads/scrapping-') # Solo ejecuta este paso en ramas que comienzan con scrapping-
+
+    steps:
+      # Paso 1: Check out el código
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Paso 2: Configurar AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Paso 3: Instalar Serverless Framework y dependencias del package.json
+      - name: Install Serverless and dev dependencies
+        run: |
+          npm install -g serverless
+          npm install
+
+      - name: Deploy with Serverless
+        env:
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        run: serverless deploy
