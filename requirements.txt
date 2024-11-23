@@ -4,3 +4,4 @@ pytest
 requests_mock
 flask
 flake8
+pre-commit
