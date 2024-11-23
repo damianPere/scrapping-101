@@ -1,6 +1,8 @@
 import unittest
 import requests_mock
-from beautifulSoup import obtener_urls_productos, obtener_detalles_producto  # Cambia 'your_script_name' por el nombre de tu archivo
+# Cambia 'your_script_name' por el nombre de tu archivo
+from beautifulSoup import obtener_urls_productos, obtener_detalles_producto
+
 
 class TestScraper(unittest.TestCase):
 
@@ -48,6 +50,7 @@ class TestScraper(unittest.TestCase):
         self.assertEqual(detalles["Titulo"], "Producto de prueba")
         self.assertEqual(detalles["Categoria"], "Categoría de prueba")
         self.assertEqual(detalles["Precio"], "50000")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -15,6 +15,7 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 # Inicializamos el controlador de Chrome con las opciones configuradas
 driver = webdriver.Chrome(options=chrome_options)
 
+
 # Función para realizar la búsqueda de un producto y obtener las URLs de los primeros 10 resultados
 def obtener_urls_productos(busqueda, cantidad=10):
     # Construimos la URL de búsqueda con el término proporcionado
@@ -34,8 +35,9 @@ def obtener_urls_productos(busqueda, cantidad=10):
         traceback.print_exc()  # Imprime el traceback completo del error
         return []
 
+
 # Función para obtener los detalles de un producto
-def obtener_detalles_producto(url_producto):
+def obtener_detalles_producto(url_producto):  # noqa: C901
     data = {}
     try:
         driver.get(url_producto)
@@ -44,66 +46,79 @@ def obtener_detalles_producto(url_producto):
         # Extraemos los detalles del producto usando bloques try-except
         try:
             data['Categoria'] = driver.find_element(By.CLASS_NAME, 'ui-pdp-breadcrumb').text.strip()
-        except:
+        except Exception:
             data['Categoria'] = None
 
         try:
             data['Titulo'] = driver.find_element(By.CLASS_NAME, 'ui-pdp-title').text.strip()
-        except:
+        except Exception:
             data['Titulo'] = None
 
         try:
-            data['Precio'] = driver.find_element(By.CSS_SELECTOR, 'div.ui-pdp-price__second-line span.andes-money-amount__fraction').text.strip()
-        except:
+            data['Precio'] = driver.find_element(
+                By.CSS_SELECTOR,
+                'div.ui-pdp-price__second-line span.andes-money-amount__fraction'
+            ).text.strip()
+
+        except Exception:
             data['Precio'] = None
 
         try:
             discount = driver.find_element(By.CSS_SELECTOR, 's[role="img"][aria-label^="Antes:"]')
             data['Descuento'] = True if discount else False
-        except:
+        except Exception:
             data['Descuento'] = False
 
         try:
             seller_button = driver.find_element(By.CLASS_NAME, 'ui-pdp-seller__link-trigger-button')
             seller = seller_button.find_elements(By.TAG_NAME, 'span')[1].text.strip()
             data['Vendedor'] = seller
-        except:
+        except Exception:
             data['Vendedor'] = None
 
         try:
-            data['Calificacion promedio'] = driver.find_element(By.CSS_SELECTOR, 'span.ui-pdp-review__rating[aria-hidden="true"]').text.strip()
-        except:
+            data['Calificacion promedio'] = driver.find_element(
+                By.CSS_SELECTOR,
+                'span.ui-pdp-review__rating[aria-hidden="true"]'
+            ).text.strip()
+        except Exception:
             data['Calificacion promedio'] = None
 
         try:
-            data['Cantidad de Calificaciones'] = driver.find_element(By.CSS_SELECTOR, 'span.ui-pdp-review__amount[aria-hidden="true"]').text.strip()
-        except:
+            data['Cantidad de Calificaciones'] = driver.find_element(
+                By.CSS_SELECTOR,
+                'span.ui-pdp-review__amount[aria-hidden="true"]'
+            ).text.strip()
+        except Exception:
             data['Cantidad de Calificaciones'] = None
 
         try:
             warranty = driver.find_element(By.XPATH, "//p[contains(., 'garantía de fábrica.')]")
             data['Garantia'] = warranty.text.strip() if 'garantía de fábrica.' in warranty.text.strip() else None
-        except:
+        except Exception:
             data['Garantia'] = None
 
         try:
             data['Descripcion'] = driver.find_element(By.CLASS_NAME, 'ui-pdp-description__content').text.strip()
-        except:
+        except Exception:
             data['Descripcion'] = None
 
         try:
             data['Stock'] = driver.find_element(By.CLASS_NAME, 'ui-pdp-stock-information__title').text.strip()
-        except:
+        except Exception:
             data['Stock'] = None
 
         try:
             data['Cantidad de Opiniones'] = driver.find_element(By.CLASS_NAME, 'total-opinion').text.strip()
-        except:
+        except Exception:
             data['Cantidad de Opiniones'] = None
 
         try:
-            data['Numero de Publicacion'] = driver.find_element(By.CSS_SELECTOR, 'span.ui-pdp-color--BLACK.ui-pdp-family--SEMIBOLD').text.strip()
-        except:
+            data['Numero de Publicacion'] = driver.find_element(
+                By.CSS_SELECTOR,
+                'span.ui-pdp-color--BLACK.ui-pdp-family--SEMIBOLD'
+            ).text.strip()
+        except Exception:
             data['Numero de Publicacion'] = None
 
         # Agregamos la URL del producto al diccionario
@@ -112,6 +127,7 @@ def obtener_detalles_producto(url_producto):
     except Exception as e:
         print(f"Error al extraer los datos del producto: {e}")
     return data
+
 
 # Realizamos la búsqueda y obtenemos los detalles de los primeros 10 productos
 busqueda = 'portatil'
@@ -130,4 +146,3 @@ pprint.pprint(detalles_productos)
 
 # Cerramos el navegador al final
 driver.quit()
-

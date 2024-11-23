@@ -1,6 +1,6 @@
-import requests # Importamos la librería requests para realizar solicitudes HTTP
-from bs4 import BeautifulSoup # Importamos BeautifulSoup de bs4 para analizar documentos HTML y XML
-import pprint # Importamos pprint para imprimir estructuras de datos de manera legible
+import requests  # Importamos la librería requests para realizar solicitudes HTTP
+from bs4 import BeautifulSoup  # Importamos BeautifulSoup de bs4 para analizar documentos HTML y XML
+
 
 # Función para realizar la búsqueda de un producto y obtener las primeras 10 URLs de resultados
 def obtener_urls_productos(busqueda, cantidad=10):
@@ -69,7 +69,12 @@ def obtener_detalles_producto(url_producto):
         data['Cantidad de Calificaciones'] = reviews_count.get_text(strip=True) if reviews_count else None
 
         # Extraemos la garantía del producto
-        warranty = soup.find('p', class_='ui-pdp-family--REGULAR ui-pdp-media__title', string=lambda text: text and text.endswith('garant√≠a de f√°brica.'))
+        warranty = soup.find(
+            'p',
+            class_='ui-pdp-family--REGULAR ui-pdp-media__title',
+            string=lambda text: text and text.endswith('garant√≠a de f√°brica.')
+            )
+
         data['Garantia'] = warranty.get_text(strip=True) if warranty else None
 
         # Extraemos la descripción del producto
@@ -96,4 +101,3 @@ def obtener_detalles_producto(url_producto):
     except Exception as e:
         print(f"Error al procesar un producto: {e}")
         return {}
-
