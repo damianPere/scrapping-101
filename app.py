@@ -1,19 +1,12 @@
-# main.py
-
-# main.py en el directorio gcloud
 import sys
 import os
+from webscrapping.beautifulSoup.beautifulSoup import obtener_urls_productos, obtener_detalles_producto
+from flask import Flask, request, jsonify
 
 # Añadir el directorio src al path para poder importar desde allí
 sys.path.append(os.path.join(os.path.dirname(__file__), './src'))
-
-# Ahora podemos importar los módulos de scraping
-from webscrapping.beautifulSoup.beautifulSoup import obtener_urls_productos, obtener_detalles_producto
-
-
-from flask import Flask, request, jsonify
-
 app = Flask(__name__)
+
 
 @app.route('/scrape', methods=['GET'])
 def scrape():
@@ -32,5 +25,5 @@ def scrape():
         return str(e), 500
 
 
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #   app.run(debug=True)
