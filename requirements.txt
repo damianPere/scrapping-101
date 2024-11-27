@@ -5,3 +5,4 @@ requests_mock
 flask
 flake8
 pre-commit
+flask_cors
