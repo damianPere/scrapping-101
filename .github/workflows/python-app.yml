@@ -59,7 +59,7 @@ jobs:
         run: |
           pytest
 
-  deploy_dev:
+  deploy_api_dev:
     runs-on: ubuntu-latest
     needs: run_tests
     if: |
@@ -90,9 +90,23 @@ jobs:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: serverless deploy --stage dev
 
-  deploy_prod:
+  deploy_fe_dev:
     runs-on: ubuntu-latest
-    needs: [install_dependencies, run_tests, deploy_dev]
+    needs: run_tests
+    if: |
+      github.ref == 'refs/heads/master' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.merged == true &&
+       github.event.pull_request.base.ref == 'master') ||
+       github.event_name == 'release'
+
+    steps:
+      - name: Deploy FE app in dev environment
+        run: curl -X POST -d {} https://api.netlify.com/build_hooks/67468e4baa323c5c6495db46
+
+  deploy_api_prod:
+    runs-on: ubuntu-latest
+    needs: [install_dependencies, run_tests, deploy_api_dev, deploy_fe_dev]
     if: github.event_name == 'release' && github.event.action == 'created'
 
     steps:
@@ -115,3 +129,12 @@ jobs:
         env:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: serverless deploy --stage prod
+
+  deploy_fe_prod:
+    runs-on: ubuntu-latest
+    needs: [install_dependencies, run_tests, deploy_api_dev, deploy_fe_dev]
+    if: github.event_name == 'release' && github.event.action == 'created'
+
+    steps:
+      - name: Deploy FE app in production
+        run: curl -X POST -d {} https://api.netlify.com/build_hooks/6746914f50f1735bb4efcbfa
