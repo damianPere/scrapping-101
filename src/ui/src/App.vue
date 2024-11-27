@@ -154,7 +154,7 @@ watch(data, () => {
 
 <template>
   <main class="p-4">
-    <h1 class="text-5xl font-bold mb-10">Analisis de Datos - Grupo PREICA2402B020101</h1>
+    <h1 class="mb-10 text-5xl font-bold">Analisis de Datos - Grupo PREICA2402B020101</h1>
     <div class="flex gap-4 mb-20">
       <input
         v-model="busqueda"
@@ -183,15 +183,15 @@ watch(data, () => {
     <div v-if="loadingData">Cargando</div>
     <div class="flex flex-col gap-y-10">
       <div>
-        <h3 class="font-bold text-xl" v-if="data && data.length > 0">Calificacion y Precio</h3>
+        <h3 class="text-xl font-bold" v-if="data && data.length > 0">Calificacion y Precio</h3>
         <canvas class="w-32! h-32!" ref="calificacionPrecioChart"></canvas>
       </div>
       <div>
-        <h3 class="font-bold text-xl" v-if="data && data.length > 0">Opiniones Por Producto</h3>
+        <h3 class="text-xl font-bold" v-if="data && data.length > 0">Opiniones Por Producto</h3>
         <canvas class="w-32! h-32!" ref="OpinionesProductoChart"></canvas>
       </div>
       <div>
-        <h3 class="font-bold text-xl" v-if="data && data.length > 0">Opiniones Por Producto</h3>
+        <h3 class="text-xl font-bold" v-if="data && data.length > 0">Producto Con Descuento</h3>
         <canvas class="w-32! h-32!" ref="ProductosDescuentoChart"></canvas>
       </div>
     </div>
