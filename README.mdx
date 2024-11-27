@@ -4,6 +4,10 @@
 
 <br /><br />
 
+# [Aplicativo Web](https://scrapping101.netlify.app/)
+
+<br /><br />
+
 # Programación para Análisis de Datos
 
 ## Grupo PREICA2402B020101
@@ -28,7 +32,7 @@
 
 -  ### [Clic Aqui](https://colab.research.google.com/drive/1J1w1e51osazlM8CcBcb837JaLEDzq95b?usp=sharing)
 
-### Correr repositorio localmente
+### Instalacion de modulos para la API
 
 
 1- Ejecutar desde la raiz del proyecto en la terminal el siguiente comando  `pip install -r requirements.txt`
@@ -39,6 +43,29 @@
 
 4- Ejecutar el siguiente comando `npm i serverless -g`
 
-5- Ejecutar `serverless wsgi serve`
 
-6- Desde el explorador dirigirse a `http://127.0.0.1:5000/scrape`
+
+### Instalacion de modulos para la web app
+
+
+1- Desde la terminal ubicarse en `src/ui`
+
+2- Verificar que node este instalado ejecutando el siguiente comand `node -v`
+
+3- Ejecutar el siguiente comando `npm i`
+
+
+### Correr API localmente
+
+1- Ejecutar `serverless wsgi serve`
+
+2- Desde el explorador dirigirse a `http://127.0.0.1:5000/scrape`
+
+
+### Correr web app localmente
+
+1- Desde la terminal ubicarse en `src/ui`
+
+2- Ejecutar `npm run dev`
+
+3- Desde el explorador dirigirse a `http://localhost:4173/
