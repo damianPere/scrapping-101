@@ -1,12 +1,15 @@
 import sys
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 # Añadir el directorio src al path para poder importar desde allí
 sys.path.append(os.path.join(os.path.dirname(__file__), './src'))
 
 from webscrapping.beautifulSoup.beautifulSoup import obtener_urls_productos, obtener_detalles_producto  # noqa: E402
 app = Flask(__name__)
+
+CORS(app)  # Enable CORS globally with '*' to allow all origins
 
 
 @app.route('/scrape', methods=['GET'])
